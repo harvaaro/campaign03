@@ -12,7 +12,7 @@ import edu.isu.cs.cs3308.structures.Tree;
  */
 public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 
-	private BinaryTreeNode<E> root = null;
+	public BinaryTreeNode<E> root = null;
 	private int size = 0;
 
 	//region BinaryTreeNode_Related
@@ -203,6 +203,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 			}
 			else {
 				btn.setLeft(createNode(element,btn,null,null));
+				size++;
 				return btn.getLeft();
 			}
 		}
@@ -234,6 +235,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 			}
 			else {
 				btn.setRight(createNode(element,btn,null,null));
+				size++;
 				return btn.getRight();
 			}
 		}
@@ -262,7 +264,10 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> setRoot(E item) {
-		return null;
+		//FIXME
+		BinaryTreeNode<E> newRoot = createNode(item,null,null,null);
+		root = newRoot;
+		return root;
 	}
 
 	/**
@@ -276,7 +281,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> parent(Node<E> p) throws IllegalArgumentException {
-		return null;
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			return btn.getLeft();
+		}
 	}
 
 	/**
@@ -424,7 +435,11 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> validate(Node<E> p) throws IllegalArgumentException {
-		return null;
+		//FIXME
+		if (!(p instanceof BinaryTreeNode)) {
+			throw new IllegalArgumentException("Node is not valid");
+		}
+		return p;
 	}
 
 	/**
