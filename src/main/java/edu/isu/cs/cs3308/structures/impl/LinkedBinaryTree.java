@@ -1,8 +1,11 @@
 package edu.isu.cs.cs3308.structures.impl;
 
+import com.google.common.collect.Iterables;
 import edu.isu.cs.cs3308.structures.BinaryTree;
 import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.Tree;
+
+import java.util.LinkedList;
 
 /**
  * Linked Binary Tree implemented from Binary Tree and Tree
@@ -93,7 +96,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 
 	public BinaryTreeNode<E> createNode(E element, BinaryTreeNode<E> parent,
 										BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
-		return new BinaryTreeNode<>(element,parent,left,right);
+		if (element == null) {
+			throw new IllegalArgumentException("Element is null");
+		}
+		else {
+			return new BinaryTreeNode<>(element, parent, left, right);
+		}
 	}
 
 	//endregion BinaryTreeNode_Related
@@ -267,6 +275,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		//FIXME
 		BinaryTreeNode<E> newRoot = createNode(item,null,null,null);
 		root = newRoot;
+		size++;
 		return root;
 	}
 
@@ -286,7 +295,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		}
 		else {
 			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			return btn.getLeft();
+			return btn.getParent();
 		}
 	}
 
@@ -301,11 +310,29 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> children(Node<E> p) throws IllegalArgumentException {
-		return null;
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			LinkedList<Node<E>> childList = new LinkedList<>();
+
+			//TODO check if I need to get all sub children too
+			if (btn.getLeft() != null) {
+				childList.addLast(btn.getLeft());
+			}
+			if (btn.getRight() != null) {
+				childList.addLast(btn.getRight());
+			}
+			return childList;
+		}
 	}
 
 	/**
 	 * Returns the number of children currently attached to the provided node.
+	 *
+	 * researched the size of iterables here
+	 * https://stackoverflow.com/questions/11598977/get-size-of-an-iterable-in-java
 	 *
 	 * @param p Node whose number of children is requested.
 	 * @return The number of children attached to the provided node.
@@ -313,7 +340,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public int numChildren(Node<E> p) throws IllegalArgumentException {
-		return 0;
+		return Iterables.size(children(p));
 	}
 
 	/**
@@ -326,7 +353,17 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isInternal(Node<E> p) throws IllegalArgumentException {
-		return false;
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			boolean hasChildren = false;
+			if (btn.getLeft() != null || btn.getRight() != null) {
+				hasChildren = true;
+			}
+			return hasChildren;
+		}
 	}
 
 	/**
@@ -339,7 +376,17 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isExternal(Node<E> p) throws IllegalArgumentException {
-		return false;
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			boolean noChildren = true;
+			if (btn.getLeft() != null || btn.getRight() != null) {
+				noChildren = false;
+			}
+			return noChildren;
+		}
 	}
 
 	/**
@@ -352,6 +399,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isRoot(Node<E> p) throws IllegalArgumentException {
+		//TODO
 		return false;
 	}
 
@@ -369,6 +417,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> insert(E item, Node<E> p) {
+		//FIXME
+		size++;
 		return null;
 	}
 
@@ -384,6 +434,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean remove(E item, Node<E> p) throws IllegalArgumentException {
+		//FIXME
+		size--;
 		return false;
 	}
 
@@ -451,6 +503,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public int depth(Node<E> node) throws IllegalArgumentException {
+		//TODO
 		return 0;
 	}
 
@@ -463,6 +516,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public int subTreeSize(Node<E> node) throws IllegalArgumentException {
+		//TODO
 		return 0;
 	}
 
@@ -477,6 +531,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isLastChild(Node<E> node) throws IllegalArgumentException {
+		//TODO
 		return false;
 	}
 
