@@ -15,7 +15,7 @@ import java.util.LinkedList;
  */
 public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 
-	public BinaryTreeNode<E> root = null;
+	protected BinaryTreeNode<E> root = null;
 	private int size = 0;
 
 	//region BinaryTreeNode_Related
@@ -26,7 +26,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 *
 	 * @param <E> element type for the node
 	 */
-	public static class BinaryTreeNode<E> implements Node<E> {
+	protected static class BinaryTreeNode<E> implements Node<E> {
 		private E element;
 		private BinaryTreeNode<E> parent;
 		private BinaryTreeNode<E> left;
@@ -118,13 +118,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> left(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			return btn.getLeft();
-		}
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		return btn.getLeft();
 	}
 
 	/**
@@ -137,13 +132,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> right(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			return btn.getRight();
-		}
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		return btn.getRight();
 	}
 
 	/**
@@ -158,29 +148,20 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> sibling(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		if (btn.getParent() == null) {
+			return btn;
 		}
 		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			if (btn.getParent() == null) {
-				return btn;
+			BinaryTreeNode<E> tempParent = btn.getParent();
+			BinaryTreeNode<E> tempLeft = tempParent.getLeft();
+			BinaryTreeNode<E> tempRight = tempParent.getRight();
+
+			if (btn == tempLeft) {
+				return tempRight;
 			}
 			else {
-				E tempCurrent = btn.getElement();
-				BinaryTreeNode<E> tempParent = btn.getParent();
-				E tempLeft = tempParent.getLeft().getElement();
-				E tempRight = tempParent.getRight().getElement();
-
-				if (tempCurrent == tempLeft && tempRight != null) {
-					return tempParent.getRight();
-				}
-				else if (tempCurrent == tempRight && tempLeft != null) {
-					return tempParent.getLeft();
-				}
-				else {
-					return null;
-				}
+				return tempLeft;
 			}
 		}
 	}
@@ -198,22 +179,15 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> addLeft(Node<E> p, E element) throws IllegalArgumentException {
-		if (element == null) {
-			throw new IllegalArgumentException("Element is null");
-		}
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
+		itemValid(element);
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		if (btn.getLeft() != null) {
+			throw new IllegalArgumentException("Left is occupied");
 		}
 		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			if (btn.getLeft() != null) {
-				throw new IllegalArgumentException("Left is occupied");
-			}
-			else {
-				btn.setLeft(createNode(element,btn,null,null));
-				size++;
-				return btn.getLeft();
-			}
+			btn.setLeft(createNode(element,btn,null,null));
+			size++;
+			return btn.getLeft();
 		}
 	}
 
@@ -230,22 +204,15 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> addRight(Node<E> p, E element) throws IllegalArgumentException {
-		if (element == null) {
-			throw new IllegalArgumentException("Element is null");
-		}
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
+		itemValid(element);
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		if (btn.getRight() != null) {
+			throw new IllegalArgumentException("Left is occupied");
 		}
 		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			if (btn.getRight() != null) {
-				throw new IllegalArgumentException("Left is occupied");
-			}
-			else {
-				btn.setRight(createNode(element,btn,null,null));
-				size++;
-				return btn.getRight();
-			}
+			btn.setRight(createNode(element,btn,null,null));
+			size++;
+			return btn.getRight();
 		}
 	}
 
@@ -290,13 +257,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> parent(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			return btn.getParent();
-		}
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		return btn.getParent();
 	}
 
 	/**
@@ -310,22 +272,17 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> children(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			LinkedList<Node<E>> childList = new LinkedList<>();
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		LinkedList<Node<E>> childList = new LinkedList<>();
 
-			//TODO check if I need to get all sub children too
-			if (btn.getLeft() != null) {
-				childList.addLast(btn.getLeft());
-			}
-			if (btn.getRight() != null) {
-				childList.addLast(btn.getRight());
-			}
-			return childList;
+		//TODO check if I need to get all sub children too
+		if (btn.getLeft() != null) {
+			childList.addLast(btn.getLeft());
 		}
+		if (btn.getRight() != null) {
+			childList.addLast(btn.getRight());
+		}
+		return childList;
 	}
 
 	/**
@@ -353,17 +310,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isInternal(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			boolean hasChildren = false;
-			if (btn.getLeft() != null || btn.getRight() != null) {
-				hasChildren = true;
-			}
-			return hasChildren;
-		}
+		return (numChildren(p) > 0);
 	}
 
 	/**
@@ -376,17 +323,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isExternal(Node<E> p) throws IllegalArgumentException {
-		if (p == null) {
-			throw new IllegalArgumentException("Node is null");
-		}
-		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
-			boolean noChildren = true;
-			if (btn.getLeft() != null || btn.getRight() != null) {
-				noChildren = false;
-			}
-			return noChildren;
-		}
+		return (numChildren(p) == 0);
 	}
 
 	/**
@@ -399,8 +336,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isRoot(Node<E> p) throws IllegalArgumentException {
-		//TODO
-		return false;
+		return (parent(p) == null);
 	}
 
 	/**
@@ -417,8 +353,27 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> insert(E item, Node<E> p) {
-		//FIXME
-		size++;
+		itemValid(item);
+		BinaryTreeNode<E> btn = (BinaryTreeNode)validate(p);
+		if (isEmpty()) {
+			setRoot(item);
+		}
+		//TODO see if I need it to traverse the tree to insert
+		else {
+			int numOfChild = numChildren(p);
+			if (numOfChild == 0) {
+				addLeft(p,item);
+			}
+			else {
+				if (left(p) == null) {
+					addLeft(p, item);
+				}
+				if (right(p) == null) {
+					addRight(p, item);
+				}
+			}
+		}
+//			size++;
 		return null;
 	}
 
@@ -468,6 +423,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public E set(Node<E> node, E element) throws IllegalArgumentException {
+		//FIXME
 		Node<E> validNode = validate(node);
 		E oldElem = validNode.getElement();
 		validNode.setElement(element);
@@ -487,11 +443,17 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> validate(Node<E> p) throws IllegalArgumentException {
-		//FIXME
-		if (!(p instanceof BinaryTreeNode)) {
-			throw new IllegalArgumentException("Node is not valid");
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
 		}
-		return p;
+		if (!(p instanceof BinaryTreeNode)) {
+			throw new IllegalArgumentException("Node is not a valid type");
+		}
+		BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+		if (!inThisTree(btn)) {
+			throw new IllegalArgumentException("Node is not in this tree");
+		}
+		return btn;
 	}
 
 	/**
@@ -503,8 +465,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public int depth(Node<E> node) throws IllegalArgumentException {
-		//TODO
-		return 0;
+		if (isRoot(node)) {
+			return 0;
+		}
+		else {
+			return 1 + depth(parent(node));
+		}
 	}
 
 	/**
@@ -536,5 +502,42 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	}
 
 	//endregion Tree_Overrides
+
+	//region Custom_Methods
+
+	/**
+	 * Recursively checks to see if the provided node
+	 * is within the current tree by comparing the root
+	 *
+	 * @param curr The node to check for in the tree
+	 * @return True if in the tree, False if not in the tree
+	 */
+	private boolean inThisTree(Node<E> curr) {
+		boolean inTree = false;
+		if (curr == root) {
+			inTree = true;
+		}
+		else if (parent(curr) == root) {
+			inTree = true;
+		}
+		else {
+			return inThisTree(parent(curr));
+		}
+		return inTree;
+	}
+
+	/**
+	 * Validates a provided element is not null
+	 *
+	 * @param item Element to check
+	 * @return The element if its valid
+	 */
+	private void itemValid(E item) {
+		if (item == null) {
+			throw new IllegalArgumentException("Element is null");
+		}
+	}
+
+	//endregion Custom_Methods
 
 }
