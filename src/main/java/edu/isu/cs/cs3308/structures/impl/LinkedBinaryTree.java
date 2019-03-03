@@ -15,6 +15,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	private BinaryTreeNode<E> root = null;
 	private int size = 0;
 
+	//region BinaryTreeNode_Related
+
 	/**
 	 * A Node to be used with binary trees, to know what the
 	 * parent, left and right nodes are. And to store the data element
@@ -27,7 +29,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		private BinaryTreeNode<E> left;
 		private BinaryTreeNode<E> right;
 
-		public BinaryTreeNode(E element, BinaryTreeNode<E> parent, BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
+		public BinaryTreeNode(E element, BinaryTreeNode<E> parent,
+							  BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
 			this.element = element;
 			this.parent = parent;
 			this.left = left;
@@ -62,7 +65,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		 * @return The parent node of this class. Can be null.
 		 */
 		@Override
-		public Node<E> getParent() {
+		public BinaryTreeNode<E> getParent() {
 			return parent;
 		}
 
@@ -88,9 +91,157 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		}
 	}
 
-	public BinaryTreeNode<E> createNode(E element, BinaryTreeNode<E> parent, BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
+	public BinaryTreeNode<E> createNode(E element, BinaryTreeNode<E> parent,
+										BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
 		return new BinaryTreeNode<>(element,parent,left,right);
 	}
+
+	//endregion BinaryTreeNode_Related
+
+	//region BinaryTree_Overrides
+
+	/**
+	 * Returns the left child of the provided node.
+	 *
+	 * @param p The parent node of whom the left child is desired.
+	 * @return The left child of the provided node, can be null if no such child
+	 * exists.
+	 * @throws IllegalArgumentException If the provided node is invalid.
+	 */
+	@Override
+	public Node<E> left(Node<E> p) throws IllegalArgumentException {
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			return btn.getLeft();
+		}
+	}
+
+	/**
+	 * Returns the right child of the provided node.
+	 *
+	 * @param p The parent node of whom the right child is desired.
+	 * @return The right child of the provided node, can be null if no such
+	 * child exists.
+	 * @throws IllegalArgumentException If the provided node is invalid.
+	 */
+	@Override
+	public Node<E> right(Node<E> p) throws IllegalArgumentException {
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			return btn.getRight();
+		}
+	}
+
+	/**
+	 * Returns the sibling node of the provided node, if such a sibling exists.
+	 * That is, if the right node is provided the left node will be returned
+	 * from the same parent.
+	 *
+	 * @param p The node of whom a sibling is requested.
+	 * @return The sibling of the provided node, or null if no such sibling
+	 * exists.
+	 * @throws IllegalArgumentException If the provided node is invalid.
+	 */
+	@Override
+	public Node<E> sibling(Node<E> p) throws IllegalArgumentException {
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			if (btn.getParent() == null) {
+				return btn;
+			}
+			else {
+				E tempCurrent = btn.getElement();
+				BinaryTreeNode<E> tempParent = btn.getParent();
+				E tempLeft = tempParent.getLeft().getElement();
+				E tempRight = tempParent.getRight().getElement();
+
+				if (tempCurrent == tempLeft && tempRight != null) {
+					return tempParent.getRight();
+				}
+				else if (tempCurrent == tempRight && tempLeft != null) {
+					return tempParent.getLeft();
+				}
+				else {
+					return null;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Adds the provided element as a new node to the left side of the provided
+	 * node.
+	 *
+	 * @param p       The node to which the element is to be added as the left child.
+	 * @param element Element to be added
+	 * @return The newly created left child of the provided node
+	 * @throws IllegalArgumentException If the provided node is invalid, if the
+	 *                                  provided element is null, or if the provided node already has a left
+	 *                                  child.
+	 */
+	@Override
+	public Node<E> addLeft(Node<E> p, E element) throws IllegalArgumentException {
+		if (element == null) {
+			throw new IllegalArgumentException("Element is null");
+		}
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			if (btn.getLeft() != null) {
+				throw new IllegalArgumentException("Left is occupied");
+			}
+			else {
+				btn.setLeft(createNode(element,btn,null,null));
+				return btn.getLeft();
+			}
+		}
+	}
+
+	/**
+	 * Adds the provided element as a new node to the right side of the provided
+	 * node.
+	 *
+	 * @param p       The node to which the element is to be added as the right child.
+	 * @param element Element to be added
+	 * @return The newly created right child of the provided node
+	 * @throws IllegalArgumentException If the provided node is invalid, if the
+	 *                                  provided element is null, or if the provided node already has a right
+	 *                                  child.
+	 */
+	@Override
+	public Node<E> addRight(Node<E> p, E element) throws IllegalArgumentException {
+		if (element == null) {
+			throw new IllegalArgumentException("Element is null");
+		}
+		if (p == null) {
+			throw new IllegalArgumentException("Node is null");
+		}
+		else {
+			BinaryTreeNode<E> btn = (BinaryTreeNode)p;
+			if (btn.getRight() != null) {
+				throw new IllegalArgumentException("Left is occupied");
+			}
+			else {
+				btn.setRight(createNode(element,btn,null,null));
+				return btn.getRight();
+			}
+		}
+	}
+
+	//endregion BinaryTree_Overrides
+
+	//region Tree_Overrides
 
 	/**
 	 * @return The root node of this tree or null if the Tree is empty.
@@ -314,76 +465,6 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		return false;
 	}
 
-	/**
-	 * Returns the left child of the provided node.
-	 *
-	 * @param p The parent node of whom the left child is desired.
-	 * @return The left child of the provided node, can be null if no such child
-	 * exists.
-	 * @throws IllegalArgumentException If the provided node is invalid.
-	 */
-	@Override
-	public Node<E> left(Node<E> p) throws IllegalArgumentException {
-		return null;
-	}
+	//endregion Tree_Overrides
 
-	/**
-	 * Returns the right child of the provided node.
-	 *
-	 * @param p The parent node of whom the right child is desired.
-	 * @return The right child of the provided node, can be null if no such
-	 * child exists.
-	 * @throws IllegalArgumentException If the provided node is invalid.
-	 */
-	@Override
-	public Node<E> right(Node<E> p) throws IllegalArgumentException {
-		return null;
-	}
-
-	/**
-	 * Returns the sibling node of the provided node, if such a sibling exists.
-	 * That is, if the right node is provided the left node will be returned
-	 * from the same parent.
-	 *
-	 * @param p The node of whom a sibling is requested.
-	 * @return The sibling of the provided node, or null if no such sibling
-	 * exists.
-	 * @throws IllegalArgumentException If the provided node is invalid.
-	 */
-	@Override
-	public Node<E> sibling(Node<E> p) throws IllegalArgumentException {
-		return null;
-	}
-
-	/**
-	 * Adds the provided element as a new node to the left side of the provided
-	 * node.
-	 *
-	 * @param p       The node to which the element is to be added as the left child.
-	 * @param element Element to be added
-	 * @return The newly created left child of the provided node
-	 * @throws IllegalArgumentException If the provided node is invalid, if the
-	 *                                  provided element is null, or if the provided node already has a left
-	 *                                  child.
-	 */
-	@Override
-	public Node<E> addLeft(Node<E> p, E element) throws IllegalArgumentException {
-		return null;
-	}
-
-	/**
-	 * Adds the provided element as a new node to the right side of the provided
-	 * node.
-	 *
-	 * @param p       The node to which the element is to be added as the right child.
-	 * @param element Element to be added
-	 * @return The newly created right child of the provided node
-	 * @throws IllegalArgumentException If the provided node is invalid, if the
-	 *                                  provided element is null, or if the provided node already has a right
-	 *                                  child.
-	 */
-	@Override
-	public Node<E> addRight(Node<E> p, E element) throws IllegalArgumentException {
-		return null;
-	}
 }
