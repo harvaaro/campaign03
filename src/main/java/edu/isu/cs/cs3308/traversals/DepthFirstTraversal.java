@@ -1,9 +1,16 @@
 package edu.isu.cs.cs3308.traversals;
 
 import edu.isu.cs.cs3308.structures.Node;
+import edu.isu.cs.cs3308.structures.Tree;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
+	public DepthFirstTraversal(Tree<E> tree) {
+		super(tree);
+	}
+
 	/**
 	 * Method which initiates the traversal of a tree from the root node. This
 	 * method returns the an iterable container of nodes representing a
@@ -14,7 +21,7 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		return super.traverse();
+		return traverseFrom(tree.root());
 	}
 
 	/**
@@ -28,11 +35,19 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return super.traverseFrom(node);
+		return null;
 	}
 
 
-	public void subtree(List<Node<E>> snapshot, Node<E> p){
+	public Iterable<Node<E>> subTreeTraverse(Node<E> node) {
+		LinkedList<Node<E>> list = new LinkedList<>();
 
+		if (!tree.isEmpty()) {
+			subtree(node, list);
+		}
+
+		return list;
 	}
+
+	public void subtree(Node<E> p, List<Node<E>> snapshot) {}
 }

@@ -1,8 +1,13 @@
 package edu.isu.cs.cs3308.traversals;
 
 import edu.isu.cs.cs3308.structures.Node;
+import edu.isu.cs.cs3308.structures.Tree;
 
 public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
+	public BreadthFirstTraversal(Tree<E> tree) {
+		super(tree);
+	}
+
 	/**
 	 * Method which initiates the traversal of a tree from the root node. This
 	 * method returns the an iterable container of nodes representing a
@@ -13,7 +18,7 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		return super.traverse();
+		return traverseFrom(tree.root());
 	}
 
 	/**
@@ -27,6 +32,6 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return super.traverseFrom(node);
+		return null;
 	}
 }
