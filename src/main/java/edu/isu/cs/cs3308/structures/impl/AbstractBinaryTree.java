@@ -3,7 +3,7 @@ package edu.isu.cs.cs3308.structures.impl;
 import edu.isu.cs.cs3308.structures.BinaryTree;
 import edu.isu.cs.cs3308.structures.Node;
 
-public class AbstractBinaryTree<E> implements BinaryTree<E> {
+public abstract class AbstractBinaryTree<E> implements BinaryTree<E> {
 	/**
 	 * Returns the left child of the provided node.
 	 *

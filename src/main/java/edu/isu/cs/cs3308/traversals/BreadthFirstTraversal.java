@@ -1,9 +1,8 @@
 package edu.isu.cs.cs3308.traversals;
 
 import edu.isu.cs.cs3308.structures.Node;
-import edu.isu.cs.cs3308.traversals.commands.TraversalCommand;
 
-public class BreadthFirstTraversal<E> implements TreeTraversal<E> {
+public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	/**
 	 * Method which initiates the traversal of a tree from the root node. This
 	 * method returns the an iterable container of nodes representing a
@@ -14,7 +13,7 @@ public class BreadthFirstTraversal<E> implements TreeTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		return null;
+		return super.traverse();
 	}
 
 	/**
@@ -28,16 +27,6 @@ public class BreadthFirstTraversal<E> implements TreeTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return null;
-	}
-
-	/**
-	 * Sets the executable command to the provided value.
-	 *
-	 * @param cmd The new executable command
-	 */
-	@Override
-	public void setCommand(TraversalCommand cmd) {
-
+		return super.traverseFrom(node);
 	}
 }

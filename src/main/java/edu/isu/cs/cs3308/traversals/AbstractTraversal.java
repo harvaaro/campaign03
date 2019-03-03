@@ -1,9 +1,13 @@
 package edu.isu.cs.cs3308.traversals;
 
 import edu.isu.cs.cs3308.structures.Node;
-import java.util.List;
+import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree;
+import edu.isu.cs.cs3308.traversals.commands.TraversalCommand;
 
-public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
+public abstract class AbstractTraversal<E> implements TreeTraversal<E> {
+	public LinkedBinaryTree<E> tree;
+	public TraversalCommand command;
+
 	/**
 	 * Method which initiates the traversal of a tree from the root node. This
 	 * method returns the an iterable container of nodes representing a
@@ -14,7 +18,7 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		return super.traverse();
+		return null;
 	}
 
 	/**
@@ -28,11 +32,16 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return super.traverseFrom(node);
+		return null;
 	}
 
-
-	public void subtree(List<Node<E>> snapshot, Node<E> p){
-
+	/**
+	 * Sets the executable command to the provided value.
+	 *
+	 * @param cmd The new executable command
+	 */
+	@Override
+	public void setCommand(TraversalCommand cmd) {
+		this.command = cmd;
 	}
 }
