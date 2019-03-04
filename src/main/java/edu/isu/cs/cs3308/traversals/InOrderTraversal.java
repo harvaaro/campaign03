@@ -32,8 +32,8 @@ public class InOrderTraversal<E> extends DepthFirstTraversal<E> {
 		if (btn.getLeft() != null) {
 			subtree(btn.getLeft(), snapshot);
 		}
-		snapshot.add(btn);
 
+		snapshot.add(btn);
 		if (command != null) {
 			command.execute(tree, btn);
 		}
