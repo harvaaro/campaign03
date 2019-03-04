@@ -362,8 +362,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	@Override
 	public Node<E> insert(E item, Node<E> p) {
 		itemValid(item);
-		// Had p == null || in this condition too, because of the comment above but
-		// removed it because the testInsert_4 would make that invalid
+		/*FIXME: I had p == null || in this condition too, because of the comment
+		 * above but removed it because the testInsert_4 would make that invalid */
 		if (isEmpty()) {
 			return setRoot(item);
 		}
@@ -396,9 +396,28 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean remove(E item, Node<E> p) throws IllegalArgumentException {
-		//FIXME
-		size--;
-		return false;
+		itemValid(item);
+		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
+
+		if (isExternal(btn)) {
+			return false;
+		}
+		else {
+			if (btn.getLeft() != null && item == btn.getLeft().getElement()) {
+				BinaryTreeNode<E> removeChild = btn.getLeft();
+				removeChild.setParent(null);
+				btn.setLeft(null);
+				size--;
+				return true;
+			}
+			else {
+				BinaryTreeNode<E> removeChild = btn.getRight();
+				removeChild.setParent(null);
+				btn.setRight(null);
+				size--;
+				return true;
+			}
+		}
 	}
 
 	/**
@@ -438,7 +457,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		E oldElem = node.getElement();
 		node.setElement(element);
 
-		// Not sure what to return here but figured the old value
+		//FIXME: not sure what to return here but figured the old value
 		return oldElem;
 	}
 
