@@ -146,7 +146,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	public Node<E> sibling(Node<E> p) throws IllegalArgumentException {
 		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
 		if (btn.getParent() == null) {
-			return btn;
+			return null;
 		}
 		else {
 			BinaryTreeNode<E> tempParent = btn.getParent();
@@ -235,10 +235,16 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public Node<E> setRoot(E item) {
-		//FIXME
-		BinaryTreeNode<E> newRoot = createNode(item,null,null,null);
-		root = newRoot;
-		size++;
+		if (item == null) {
+			root = null;
+			size = 0;
+		}
+		else {
+			if (isEmpty()) {
+				root = createNode(item, null, null, null);
+				size = 1;
+			}
+		}
 		return root;
 	}
 
