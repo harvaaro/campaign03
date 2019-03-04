@@ -26,7 +26,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 *
 	 * @param <E> element type for the node
 	 */
-	protected static class BinaryTreeNode<E> implements Node<E> {
+	public static class BinaryTreeNode<E> implements Node<E> {
 		private E element;
 		private BinaryTreeNode<E> parent;
 		private BinaryTreeNode<E> left;
