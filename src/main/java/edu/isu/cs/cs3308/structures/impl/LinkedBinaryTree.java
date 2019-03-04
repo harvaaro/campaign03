@@ -362,25 +362,26 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	@Override
 	public Node<E> insert(E item, Node<E> p) {
 		itemValid(item);
-		if (p == null || isEmpty()) {
-			setRoot(item);
+		// Had p == null || in this condition too, because of the comment above but
+		// removed it because the testInsert_4 would make that invalid
+		if (isEmpty()) {
+			return setRoot(item);
 		}
-		//TODO see if I need it to traverse the tree to insert
 		else {
 			nodeValid(p);
 			if (isExternal(p)) {
-				addLeft(p,item);
+				return addLeft(p,item);
 			}
 			else {
 				if (left(p) == null) {
-					addLeft(p, item);
+					return addLeft(p, item);
 				}
 				if (right(p) == null) {
-					addRight(p, item);
+					return addRight(p, item);
 				}
 			}
 		}
-		return null;
+		throw new IllegalArgumentException("Cannot insert node");
 	}
 
 	/**
@@ -429,10 +430,15 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public E set(Node<E> node, E element) throws IllegalArgumentException {
-		//FIXME
-		Node<E> validNode = validate(node);
-		E oldElem = validNode.getElement();
-		validNode.setElement(element);
+		itemValid(element);
+		nodeValid(node);
+		if (!inThisTree(node)) {
+			throw new IllegalArgumentException("Node not found in this tree");
+		}
+		E oldElem = node.getElement();
+		node.setElement(element);
+
+		// Not sure what to return here but figured the old value
 		return oldElem;
 	}
 
@@ -524,7 +530,13 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		}
 	}
 
-	private void nodeValid(Node<E> node) {
+	/**
+	 * Validates a given node to be not null and of a Node subtype
+	 *
+	 * @param node Node to check
+	 * @throws IllegalArgumentException if node is null or wrong type
+	 */
+	private void nodeValid(Node<E> node) throws IllegalArgumentException {
 		if (node == null) {
 			throw new IllegalArgumentException("Node is null");
 		}
@@ -537,8 +549,9 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 * Validates a provided element is not null
 	 *
 	 * @param item Element to check
+	 * @throws IllegalArgumentException if element is null
 	 */
-	private void itemValid(E item) {
+	private void itemValid(E item) throws IllegalArgumentException {
 		if (item == null) {
 			throw new IllegalArgumentException("Element is null");
 		}
