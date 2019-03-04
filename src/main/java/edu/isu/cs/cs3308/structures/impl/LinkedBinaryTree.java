@@ -72,28 +72,57 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 			return parent;
 		}
 
-
+		/**
+		 * Sets the Parent node to the supplied value
+		 *
+		 * @param parent Node to set as this nodes parent
+		 */
 		public void setParent(BinaryTreeNode<E> parent) {
 			this.parent = parent;
 		}
 
+		/**
+		 * @return The left node of this class. Can be null.
+		 */
 		public BinaryTreeNode<E> getLeft() {
 			return left;
 		}
 
+		/**
+		 * Sets the Left node to the supplied value
+		 *
+		 * @param left Node to set as this nodes left
+		 */
 		public void setLeft(BinaryTreeNode<E> left) {
 			this.left = left;
 		}
 
+		/**
+		 * @return The left node of this class. Can be null.
+		 */
 		public BinaryTreeNode<E> getRight() {
 			return right;
 		}
 
+		/**
+		 * Sets the Right node to the supplied value
+		 *
+		 * @param right Node to set as this nodes right
+		 */
 		public void setRight(BinaryTreeNode<E> right) {
 			this.right = right;
 		}
 	}
 
+	/**
+	 * Cronstructor for a BinaryTreeNode
+	 *
+	 * @param element data for the node
+	 * @param parent parent of the node
+	 * @param left child left node
+	 * @param right child right node
+	 * @return The newly created node.
+	 */
 	public BinaryTreeNode<E> createNode(E element, BinaryTreeNode<E> parent,
 										BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
 		itemValid(element);
