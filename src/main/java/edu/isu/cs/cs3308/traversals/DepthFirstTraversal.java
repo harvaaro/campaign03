@@ -40,7 +40,7 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return null;
+		return subTreeTraverse(node);
 	}
 
 	/**

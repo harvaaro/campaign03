@@ -53,8 +53,8 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 
 		while (!nodeQue.isEmpty()) {
 			BinaryTreeNode<E> tempNode = nodeQue.poll();
-//			tree.validate(tempNode);
 			listNode.addLast(tempNode);
+
 			if (tempNode.getLeft() != null) {
 				nodeQue.offer(tempNode.getLeft());
 			}
