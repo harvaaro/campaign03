@@ -282,7 +282,6 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
 		LinkedList<Node<E>> childList = new LinkedList<>();
 
-		//TODO check if I need to get all sub children too
 		if (btn.getLeft() != null) {
 			childList.addLast(btn.getLeft());
 		}

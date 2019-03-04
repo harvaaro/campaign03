@@ -2,6 +2,7 @@ package edu.isu.cs.cs3308.traversals;
 
 import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.Tree;
+import edu.isu.cs.cs3308.structures.impl.LinkedQueue;
 
 public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	public BreadthFirstTraversal(Tree<E> tree) {
@@ -32,6 +33,6 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
-		return null;
+		LinkedQueue<Node<E>> nodeQue = new LinkedQueue<>();
 	}
 }
