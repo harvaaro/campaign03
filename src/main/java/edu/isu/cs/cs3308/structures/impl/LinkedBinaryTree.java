@@ -240,7 +240,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 			size = 0;
 		}
 		else {
-			if (isEmpty()) {
+			if (isEmpty() || item != root().getElement()) {
 				root = createNode(item, null, null, null);
 				size = 1;
 			}
@@ -260,8 +260,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	@Override
 	public Node<E> parent(Node<E> p) throws IllegalArgumentException {
 		nodeValid(p);
-		if (p == root) {
-			return root;
+		if (isRoot(p)) {
+			return null;
 		}
 		else {
 			return p.getParent();
@@ -343,7 +343,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isRoot(Node<E> p) throws IllegalArgumentException {
-		return (parent(p) == null);
+		nodeValid(p);
+		return (p == root());
 	}
 
 	/**
@@ -366,9 +367,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		}
 		//TODO see if I need it to traverse the tree to insert
 		else {
-			BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
-			int numOfChild = numChildren(p);
-			if (numOfChild == 0) {
+			nodeValid(p);
+			if (isExternal(p)) {
 				addLeft(p,item);
 			}
 			else {
@@ -380,7 +380,6 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 				}
 			}
 		}
-//			size++;
 		return null;
 	}
 
@@ -415,7 +414,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return (root == null);
+		return (root() == null);
 	}
 
 	/**
@@ -451,11 +450,10 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	@Override
 	public Node<E> validate(Node<E> p) throws IllegalArgumentException {
 		nodeValid(p);
-		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)p;
-		if (!inThisTree(btn)) {
+		if (!inThisTree(p)) {
 			throw new IllegalArgumentException("Node is not in this tree");
 		}
-		return btn;
+		return p;
 	}
 
 	/**
@@ -515,10 +513,10 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 * @return True if in the tree, False if not in the tree
 	 */
 	private boolean inThisTree(Node<E> curr) {
-		if (curr == root) {
+		if (isRoot(curr)) {
 			return true;
 		}
-		else if (parent(curr) == root) {
+		else if (isRoot(parent(curr))) {
 			return true;
 		}
 		else {
