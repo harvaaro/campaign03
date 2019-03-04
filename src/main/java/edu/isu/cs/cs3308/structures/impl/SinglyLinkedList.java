@@ -1,7 +1,6 @@
 package edu.isu.cs.cs3308.structures.impl;
 
 import edu.isu.cs.cs3308.structures.List;
-import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.NodeSingle;
 
 /**

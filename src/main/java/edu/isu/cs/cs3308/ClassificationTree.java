@@ -10,6 +10,9 @@ import edu.isu.cs.cs3308.traversals.PreOrderTraversal;
 import edu.isu.cs.cs3308.traversals.TreeTraversal;
 import edu.isu.cs.cs3308.traversals.commands.EnumeratedSaveCommand;
 import edu.isu.cs.cs3308.traversals.commands.EnumerationCommand;
+import edu.isu.cs.cs3308.traversals.commands.EnumerationFilesWriteCommand;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -54,7 +57,15 @@ public class ClassificationTree {
      * Saves a tree to a file.
      */
     public void save() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        BreadthFirstTraversal<Datum> trav = new BreadthFirstTraversal<>(tree);
+        EnumerationFilesWriteCommand cmdSave = new EnumerationFilesWriteCommand();
+        trav.setCommand(cmdSave);
+        trav.traverse();
+        try {
+            Files.write(Paths.get("tree.txt"), cmdSave.saveString);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
 
     /**
