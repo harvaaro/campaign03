@@ -8,7 +8,7 @@ public abstract class AbstractTraversal<E> implements TreeTraversal<E> {
 	public TraversalCommand command;
 
 	/**
-	 * Constrcutor for the tree traversal
+	 * Constructor for the tree traversal
 	 *
 	 * @param tree tree to traverse
 	 */

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	/**
-	 * Constrcutor for the tree traversal
+	 * Constructor for the tree traversal
 	 *
 	 * @param tree tree to traverse
 	 */

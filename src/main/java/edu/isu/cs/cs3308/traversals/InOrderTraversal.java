@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InOrderTraversal<E> extends DepthFirstTraversal<E> {
 	/**
-	 * Constrcutor for the tree traversal
+	 * Constructor for the tree traversal
 	 *
 	 * @param tree tree to traverse
 	 */
