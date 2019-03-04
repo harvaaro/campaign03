@@ -62,7 +62,7 @@ public class ClassificationTree {
         trav.setCommand(cmdSave);
         trav.traverse();
         try {
-            Files.write(Paths.get("tree.txt"), cmdSave.saveString);
+            Files.write(Paths.get("tree.txt"), cmdSave.getSaveString());
         } catch (IOException ex) {
             System.out.println(ex);
         }

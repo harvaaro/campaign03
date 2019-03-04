@@ -32,6 +32,14 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		private BinaryTreeNode<E> left;
 		private BinaryTreeNode<E> right;
 
+		/**
+		 * Constructor
+		 *
+		 * @param element data for the node
+		 * @param parent parent of the node
+		 * @param left child left node
+		 * @param right child right node
+		 */
 		public BinaryTreeNode(E element, BinaryTreeNode<E> parent,
 							  BinaryTreeNode<E> left, BinaryTreeNode<E> right) {
 			this.element = element;
@@ -115,7 +123,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	}
 
 	/**
-	 * Cronstructor for a BinaryTreeNode
+	 * Creates a BinaryTreeNode
 	 *
 	 * @param element data for the node
 	 * @param parent parent of the node

@@ -10,13 +10,18 @@ import java.util.LinkedList;
 /**
  * A Traversal Command that numbers the datum and writes the output string to a list
  *
+ * Based off of the code from Isaac Griffith
+ *
  * @author Aaron Harvey
  */
 public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 
 	private int current;
-	public LinkedList<String> saveString = new LinkedList<>();
+	private LinkedList<String> saveString = new LinkedList<>();
 
+	/**
+	 * Constructs a new Command and sets the initial value of current to 0;
+	 */
 	public EnumerationFilesWriteCommand() {
 		current = 0;
 	}
@@ -43,4 +48,11 @@ public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 		saveString.addLast(String.format("%d:%d:%s:%s%n", parentNum, data.getNumber(), side, data.getPrompt()));
 	}
 
+	/**
+	 * Get the saved list of strings
+	 * @return The list of strings
+	 */
+	public LinkedList<String> getSaveString() {
+		return saveString;
+	}
 }
