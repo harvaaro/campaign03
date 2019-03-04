@@ -396,6 +396,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean remove(E item, Node<E> p) throws IllegalArgumentException {
+		/*FIXME: had to do this because of testRemove_3 and 4, but the comment
+		 * above expects it to be an IllegalArgumentException */
+		if (item == null || p == null) {
+			return false;
+		}
+
 		itemValid(item);
 		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
 
