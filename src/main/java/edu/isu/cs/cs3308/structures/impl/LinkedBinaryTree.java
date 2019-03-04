@@ -513,8 +513,12 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public int subTreeSize(Node<E> node) throws IllegalArgumentException {
-		//TODO
-		return 0;
+		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(node);
+		int subSize = 0;
+		for (Node<E> child : children(btn)) {
+			subSize = Math.max(subSize, 1 + subTreeSize(child));
+		}
+		return subSize;
 	}
 
 	/**
@@ -528,8 +532,8 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 	 */
 	@Override
 	public boolean isLastChild(Node<E> node) throws IllegalArgumentException {
-		//TODO
-		return false;
+		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(node);
+		return (isRoot(btn) || sibling(btn) == null || children(btn) == null);
 	}
 
 	//endregion Tree_Overrides
