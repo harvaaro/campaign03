@@ -66,7 +66,9 @@ public class BreadthFirstTraversalTest {
         }
     }
 
-    @Test
+    /*FIXME: I added this exception test line, since there was no assert,
+     * and it seemed correct because it normally gets an error because of null */
+    @Test(expected = IllegalArgumentException.class)
     public void testTraverse_2() {
         tree = new LinkedBinaryTree<>();
         fixture = new BreadthFirstTraversal(tree);

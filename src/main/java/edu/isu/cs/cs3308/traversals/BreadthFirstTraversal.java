@@ -10,6 +10,9 @@ import java.util.LinkedList;
 public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	public BreadthFirstTraversal(Tree<E> tree) {
 		super(tree);
+		if (tree == null) {
+			throw new IllegalArgumentException("Tree is null");
+		}
 	}
 
 	/**
@@ -22,12 +25,7 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		if (tree == null || tree.isEmpty()) {
-			throw new IllegalArgumentException("Tree is invalid");
-		}
-		else {
-			return traverseFrom(tree.root());
-		}
+		return traverseFrom(tree.root());
 	}
 
 	/**
