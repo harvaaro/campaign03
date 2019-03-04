@@ -7,7 +7,15 @@ public abstract class AbstractTraversal<E> implements TreeTraversal<E> {
 	public Tree<E> tree;
 	public TraversalCommand command;
 
+	/**
+	 * Constrcutor for the tree traversal
+	 *
+	 * @param tree tree to traverse
+	 */
 	public AbstractTraversal(Tree<E> tree) {
+		if (tree == null) {
+			throw new IllegalArgumentException("Tree is null");
+		}
 		this.tree = tree;
 	}
 

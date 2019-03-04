@@ -8,11 +8,13 @@ import edu.isu.cs.cs3308.structures.impl.LinkedQueue;
 import java.util.LinkedList;
 
 public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
+	/**
+	 * Constrcutor for the tree traversal
+	 *
+	 * @param tree tree to traverse
+	 */
 	public BreadthFirstTraversal(Tree<E> tree) {
 		super(tree);
-		if (tree == null) {
-			throw new IllegalArgumentException("Tree is null");
-		}
 	}
 
 	/**
@@ -25,7 +27,12 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	 */
 	@Override
 	public Iterable<Node<E>> traverse() {
-		return traverseFrom(tree.root());
+		if (tree.root() == null) {
+			return null;
+		}
+		else {
+			return traverseFrom(tree.root());
+		}
 	}
 
 	/**
@@ -41,11 +48,12 @@ public class BreadthFirstTraversal<E> extends AbstractTraversal<E> {
 	public Iterable<Node<E>> traverseFrom(Node<E> node) {
 		tree.validate(node);
 
-		LinkedQueue<Node<E>> nodeQue = new LinkedQueue<>();
+		LinkedQueue<BinaryTreeNode<E>> nodeQue = new LinkedQueue<>();
 		LinkedList<Node<E>> listNode = new LinkedList<>();
 
 		while (!nodeQue.isEmpty()) {
-			BinaryTreeNode<E> tempNode = (BinaryTreeNode<E>)nodeQue.poll();
+			BinaryTreeNode<E> tempNode = nodeQue.poll();
+//			tree.validate(tempNode);
 			listNode.addLast(tempNode);
 			if (tempNode.getLeft() != null) {
 				nodeQue.offer(tempNode.getLeft());

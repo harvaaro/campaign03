@@ -7,6 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
+	/**
+	 * Constrcutor for the tree traversal
+	 *
+	 * @param tree tree to traverse
+	 */
 	public DepthFirstTraversal(Tree<E> tree) {
 		super(tree);
 	}
@@ -38,7 +43,12 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 		return null;
 	}
 
-
+	/**
+	 * Gets an iterable subtree from the provided node
+	 *
+	 * @param node Node to get subtree from
+	 * @return An iterable list of nodes
+	 */
 	public Iterable<Node<E>> subTreeTraverse(Node<E> node) {
 		LinkedList<Node<E>> list = new LinkedList<>();
 
@@ -49,5 +59,11 @@ public class DepthFirstTraversal<E> extends AbstractTraversal<E> {
 		return list;
 	}
 
+	/**
+	 * Traverses a subtree with a supplied node as the root
+	 *
+	 * @param p node to use as root
+	 * @param snapshot list of nodes to pull from
+	 */
 	public void subtree(Node<E> p, List<Node<E>> snapshot) {}
 }
