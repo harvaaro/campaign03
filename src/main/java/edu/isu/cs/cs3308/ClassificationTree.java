@@ -88,9 +88,10 @@ public class ClassificationTree {
 	 * operations, a hardcoded basic tree will be loaded instead.
 	 */
 	public void load() {
-		Scanner asker = new Scanner(System.in);
-		System.out.println("Filename of Tree to open: ");
-		String input = asker.nextLine();
+//		Scanner asker = new Scanner(System.in);
+//		System.out.println("Filename of Tree to open: ");
+//		String input = asker.nextLine();
+		String input = "test.txt";
 
 		if (Files.exists(Paths.get(input))) {
 			parsedTree(input);
@@ -98,6 +99,8 @@ public class ClassificationTree {
 		else {
 		    hardcodedTree();
         }
+
+		int t = 0;
 	}
 
 	private void parsedTree(String input) {
@@ -110,21 +113,31 @@ public class ClassificationTree {
 			System.out.println(ex.toString());
 		}
 
-		LinkedQueue<String> indxList = new LinkedQueue<>();
-		LinkedQueue<Node<Datum>> nodeList = new LinkedQueue<>();
-		nodeList.offer(tree.root());
+		LinkedList<String> indxList = new LinkedList<>();
+		LinkedList<Node<Datum>> nodeList = new LinkedList<>();
 
 		for (String line : treeLines) {
 			String[] parsed = line.split(":");
 			Datum temp = new Datum(parsed[3]);
-			indxList.offer(parsed[1]);
 
-			if (parsed[0].equals(indxList.peek())) {
-				nodeList.offer(tree.addLeft(nodeList.peek(), temp));
-			}
-			else {
+			while (!indxList.isEmpty() && !parsed[0].equals(indxList.peek())) {
 				indxList.poll();
 				nodeList.poll();
+			}
+
+			if (indxList.isEmpty() || !indxList.peek().equals(parsed[0])) {
+				indxList.offer(parsed[1]);
+			}
+
+			if (tree.isEmpty()) {
+				nodeList.offer(tree.setRoot(temp));
+			}
+			else {
+				if (parsed[2].equals("l")) {
+					nodeList.offer(tree.addLeft(nodeList.peek(), temp));
+				} else {
+					nodeList.offer(tree.addRight(nodeList.peek(), temp));
+				}
 			}
 		}
 	}
