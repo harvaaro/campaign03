@@ -13,10 +13,7 @@ import edu.isu.cs.cs3308.traversals.commands.EnumeratedSaveCommand;
 import edu.isu.cs.cs3308.traversals.commands.EnumerationCommand;
 import edu.isu.cs.cs3308.traversals.commands.EnumerationFilesWriteCommand;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,16 +50,50 @@ public class ClassificationTree {
 	 * Main method which controls the identification and tree management loop.
 	 */
 	public void identify() {
-		//TODO
+		askQuestions(tree.root(), "");
+	}
+
+	private void askQuestions(Node<Datum> currNode, String input) {
 		Scanner asker = new Scanner(System.in);
-		System.out.println("Is this animal " + "VAR" + "? (Y/N) > "); //input
-		String input = asker.nextLine();
 
-		System.out.println("I don't know any " + "VARS" + " animals that aren't " + "NODE");
-		System.out.println("What is the new animal? > "); //input
-		System.out.println("What characteristic does " + "NODE" + "NODE2?" + "does not? > "); //input
+		if (input.equals("")) {
+			System.out.println("Is this animal " + tree.root().getElement() + "? (Y/N) > "); //input
+			input = asker.next().toUpperCase();
+		}
 
+		else if (input.equals("Y")) {
+			if (tree.left(currNode) == null) {
+				askQuestions(currNode, "Y");
+			}
+			else {
+				askQuestions(tree.left(currNode), "N");
+			}
+		}
 
+		else if (input.equals("N")) {
+			System.out.println("I don't know any " + notAnimalString(tree.root()) +
+					" animals that aren't " + tree.root().getElement());
+			System.out.println("What is the new animal? > "); //input
+
+			System.out.println("What characteristic does " + "NEW" + " have that " +
+					tree.root().getElement() + "does not? > "); //input
+		}
+	}
+
+	/**
+	 * Get the string of the parent tree, for when an animal is not known
+	 * @param currNode The current node that the identify does not know
+	 * @return String of all of the parent animal descriptors
+	 */
+	private String notAnimalString(Node<Datum> currNode) {
+		String retString = "";
+		for (int i = 0; i < tree.depth(currNode); i++) {
+			if (i != 0) {
+				retString = ", " + retString;
+			}
+			retString = currNode.getElement() + retString;
+		}
+		return retString;
 	}
 
 	/**
@@ -81,12 +112,13 @@ public class ClassificationTree {
 
 		try {
 			File fileOut = new File(filename);
-			PrintWriter writer = new PrintWriter(fileOut);
+			FileWriter fileWrite = new FileWriter(fileOut, false);
+			PrintWriter writer = new PrintWriter(fileWrite);
 			trav.setCommand(new EnumeratedSaveCommand(writer));
 			trav.traverse();
 			writer.close();
 		}
-		catch (FileNotFoundException ex) {
+		catch (IOException ex) {
 			System.out.println(ex.toString());
 		}
 	}
