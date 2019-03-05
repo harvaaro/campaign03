@@ -5,6 +5,7 @@ import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.impl.BinarySearchTree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree.BinaryTreeNode;
+import edu.isu.cs.cs3308.structures.impl.LinkedQueue;
 import edu.isu.cs.cs3308.traversals.BreadthFirstTraversal;
 import edu.isu.cs.cs3308.traversals.InOrderTraversal;
 import edu.isu.cs.cs3308.traversals.PreOrderTraversal;
@@ -92,27 +93,51 @@ public class ClassificationTree {
 		String input = asker.nextLine();
 
 		if (Files.exists(Paths.get(input))) {
-		    try {
-                Files.readAllLines(Paths.get(input));
-            }
-		    catch (IOException ex) {
-                System.out.println(ex.toString());
-            }
+			parsedTree(input);
 		}
 		else {
 		    hardcodedTree();
         }
 	}
 
+	private void parsedTree(String input) {
+		List<String> treeLines = new LinkedList<>();
+
+		try {
+			treeLines = Files.readAllLines(Paths.get(input));
+		}
+		catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+
+		LinkedQueue<String> indxList = new LinkedQueue<>();
+		LinkedQueue<Node<Datum>> nodeList = new LinkedQueue<>();
+		nodeList.offer(tree.root());
+
+		for (String line : treeLines) {
+			String[] parsed = line.split(":");
+			Datum temp = new Datum(parsed[3]);
+			indxList.offer(parsed[1]);
+
+			if (parsed[0].equals(indxList.peek())) {
+				nodeList.offer(tree.addLeft(nodeList.peek(), temp));
+			}
+			else {
+				indxList.poll();
+				nodeList.poll();
+			}
+		}
+	}
+
     /**
      * Hard-coded tree matching the test.txt provided
      */
 	private void hardcodedTree() {
-        Datum d0 = new Datum("root");
-        tree.setRoot(d0);
+//        Datum d0 = new Datum("root");
+//        tree.setRoot(d0);
 
         Datum d1r = new Datum("furry");
-        Node<Datum> n1r = tree.addRight(tree.root(),d1r);
+        Node<Datum> n1r = tree.setRoot(d1r);
 
         Datum d2al = new Datum("squeaky");
         Node<Datum> n2al = tree.addLeft(n1r,d2al);
