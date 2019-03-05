@@ -5,7 +5,11 @@ import edu.isu.cs.cs3308.structures.Tree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree;
 import edu.isu.cs.cs3308.Datum;
 
-import java.util.LinkedList;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 
 /**
  * A Traversal Command that writes the output string to a list
@@ -16,13 +20,13 @@ import java.util.LinkedList;
  */
 public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 
-	private final LinkedList<String> saveString;
+	private String filename;
 
 	/**
 	 * Constructs a new Command
 	 */
-	public EnumerationFilesWriteCommand(LinkedList<String> saveString) {
-		this.saveString = saveString;
+	public EnumerationFilesWriteCommand(String filename) {
+		this.filename = filename;
 	}
 
 	/**
@@ -41,6 +45,13 @@ public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 		String side = "r";
 		if (node.getParent() != null)
 			side = node.equals(((LinkedBinaryTree<Datum>) tree).left(node.getParent())) ? "l" : "r";
-		saveString.addLast(String.format("%d:%d:%s:%s%n", parentNum, data.getNumber(), side, data.getPrompt()));
+
+		String saveString = (String.format("%d:%d:%s:%s%n", parentNum, data.getNumber(), side, data.getPrompt()));
+		try {
+			Files.write(Paths.get(filename), Collections.singleton(saveString), Charset.defaultCharset());
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+		filename = saveString;
 	}
 }
