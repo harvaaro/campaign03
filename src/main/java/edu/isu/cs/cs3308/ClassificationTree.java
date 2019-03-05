@@ -54,9 +54,9 @@ public class ClassificationTree {
 	 */
 	public void identify() {
 		Scanner asker = new Scanner(System.in);
-		System.out.print("Type something: ");
-		String input = asker.next();
-		System.out.println("You typed: " + input);
+		System.out.println("Hello there type your name: ");
+		String input = asker.nextLine();
+		System.out.println("Your name is: " + input);
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class ClassificationTree {
 	 */
 	public void load() {
 		Scanner asker = new Scanner(System.in);
-		System.out.print("Type something: ");
-		String input = asker.next();
+		System.out.println("Filename of Tree to open: ");
+		String input = asker.nextLine();
 
 		if (Files.exists(Paths.get(input))) {
 		    try {
