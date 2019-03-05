@@ -5,7 +5,6 @@ import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.impl.BinarySearchTree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree.BinaryTreeNode;
-import edu.isu.cs.cs3308.structures.impl.LinkedQueue;
 import edu.isu.cs.cs3308.traversals.BreadthFirstTraversal;
 import edu.isu.cs.cs3308.traversals.InOrderTraversal;
 import edu.isu.cs.cs3308.traversals.PreOrderTraversal;
@@ -56,9 +55,14 @@ public class ClassificationTree {
 	public void identify() {
 		//TODO
 		Scanner asker = new Scanner(System.in);
-		System.out.println("Hello there type your name: ");
+		System.out.println("Is this animal " + "VAR" + "? (Y/N) > "); //input
 		String input = asker.nextLine();
-		System.out.println("Your name is: " + input);
+
+		System.out.println("I don't know any " + "VARS" + " animals that aren't " + "NODE");
+		System.out.println("What is the new animal? > "); //input
+		System.out.println("What characteristic does " + "NODE" + "NODE2?" + "does not? > "); //input
+
+
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class ClassificationTree {
 //		Scanner asker = new Scanner(System.in);
 //		System.out.println("Filename of Tree to open: ");
 //		String input = asker.nextLine();
-		String input = "t";
+		String input = "test.txt";
 
 		if (Files.exists(Paths.get(input))) {
 			List<String> treeLines = new LinkedList<>();
@@ -184,44 +188,4 @@ public class ClassificationTree {
 
 		parsedTree(parsedList);
 	}
-
-    /**
-     * Hard-coded tree matching the test.txt provided
-     */
-	private void hardcodedTree() {
-        Datum d1r = new Datum("furry");
-        Node<Datum> n1r = tree.setRoot(d1r);
-
-        Datum d2al = new Datum("squeaky");
-        Node<Datum> n2al = tree.addLeft(n1r,d2al);
-        Datum d2ar = new Datum("aquatic");
-        Node<Datum> n2ar = tree.addRight(n1r,d2ar);
-
-//        Datum d3al = new Datum("a mouse");
-//        Node<Datum> n3al = tree.addLeft(n2al,d3al);
-        Datum d3ar = new Datum("bipedal");
-        Node<Datum> n3ar = tree.addRight(n2al,d3ar);
-        Datum d3bl = new Datum("legged");
-        Node<Datum> n3bl = tree.addLeft(n2ar,d3bl);
-//        Datum d3br = new Datum("a snake");
-//        Node<Datum> n3br = tree.addRight(n2ar,d3br);
-
-        Datum d4al = new Datum("reclusive");
-        Node<Datum> n4al = tree.addLeft(n3ar,d4al);
-//        Datum d4ar = new Datum("a dog");
-//        Node<Datum> n4ar = tree.addRight(n3ar,d4ar);
-        Datum d4bl = new Datum("shelled");
-        Node<Datum> n4bl = tree.addLeft(n3bl,d3bl);
-//        Datum d4br = new Datum("a fish");
-//        Node<Datum> n4br = tree.addRight(n3bl,d3br);
-
-//        Datum d5al = new Datum("a bigfoot");
-//        Node<Datum> n5al = tree.addLeft(n4al,d5al);
-//        Datum d5ar = new Datum("a human");
-//        Node<Datum> n5ar = tree.addRight(n4al,d5ar);
-//        Datum d5bl = new Datum("a crab");
-//        Node<Datum> n5bl = tree.addLeft(n4bl,d5bl);
-//        Datum d5br = new Datum("a salamander");
-//        Node<Datum> n5br = tree.addRight(n4bl,d5br);
-    }
 }
