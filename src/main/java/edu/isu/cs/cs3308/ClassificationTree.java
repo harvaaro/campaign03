@@ -36,45 +36,100 @@ import java.util.Scanner;
  */
 public class ClassificationTree {
 
-    private LinkedBinaryTree<Datum> tree;
+	private LinkedBinaryTree<Datum> tree;
 
-    /**
-     * Constructs a new Animal tree class which manages an underlying animal
-     * tree
-     */
-    public ClassificationTree() {
-        tree = new LinkedBinaryTree<>();
-        load();
-    }
+	/**
+	 * Constructs a new Animal tree class which manages an underlying animal
+	 * tree
+	 */
+	public ClassificationTree() {
+		tree = new LinkedBinaryTree<>();
+		load();
+	}
 
-    /**
-     * Main method which controls the identification and tree management loop.
-     */
-    public void identify() {
-		throw new UnsupportedOperationException("Not yet implemented");
-    }
+	/**
+	 * Main method which controls the identification and tree management loop.
+	 */
+	public void identify() {
+		Scanner asker = new Scanner(System.in);
+		System.out.print("Type something: ");
+		String input = asker.next();
+		System.out.println("You typed: " + input);
+	}
 
-    /**
-     * Saves a tree to a file.
-     */
-    public void save() {
-        BreadthFirstTraversal<Datum> trav = new BreadthFirstTraversal<>(tree);
-        EnumerationFilesWriteCommand cmdSave = new EnumerationFilesWriteCommand();
-        trav.setCommand(cmdSave);
+	/**
+	 * Saves a tree to a file.
+	 */
+	public void save() {
+		BreadthFirstTraversal<Datum> trav = new BreadthFirstTraversal<>(tree);
+        trav.setCommand(new EnumerationCommand());
         trav.traverse();
-        try {
-            Files.write(Paths.get("DELETE.txt"), cmdSave.getSaveString(),
-                    StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-    }
+		EnumerationFilesWriteCommand cmdSave = new EnumerationFilesWriteCommand();
+		trav.setCommand(cmdSave);
+		trav.traverse();
+		try {
+			Files.write(Paths.get("DELETE.txt"), cmdSave.getSaveString(),
+					StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+		} catch (IOException ex) {
+			System.out.println(ex.toString());
+		}
+	}
 
-    /**
-     * Loads a tree from the given file, if an exception occurs during file
-     * operations, a hardcoded basic tree will be loaded instead.
-     */
-    public void load() {
-		throw new UnsupportedOperationException("Not yet implemented");
-    }
+	/**
+	 * Loads a tree from the given file, if an exception occurs during file
+	 * operations, a hardcoded basic tree will be loaded instead.
+	 */
+	public void load() {
+		Scanner asker = new Scanner(System.in);
+		System.out.print("Type something: ");
+		String input = asker.next();
+
+		if (Files.exists(Paths.get(input))) {
+		    try {
+                Files.readAllLines(Paths.get(input));
+            }
+		    catch (IOException ex) {
+                System.out.println(ex.toString());
+            }
+		}
+		else {
+            Datum d0 = new Datum("root");
+		    tree.setRoot(d0);
+
+		    Datum d1r = new Datum("furry");
+            Node<Datum> n1r = tree.addRight(tree.root(),d1r);
+
+            Datum d2al = new Datum("squeaky");
+            Node<Datum> n2al = tree.addLeft(n1r,d2al);
+            Datum d2ar = new Datum("aquatic");
+            Node<Datum> n2ar = tree.addRight(n1r,d2ar);
+
+            Datum d3al = new Datum("a mouse");
+            Datum d3ar = new Datum("bipedal");
+            Node<Datum> n3al = tree.addLeft(n2al,d3al);
+            Node<Datum> n3ar = tree.addRight(n2al,d3ar);
+            Datum d3bl = new Datum("legged");
+            Datum d3br = new Datum("a snake");
+            Node<Datum> n3bl = tree.addLeft(n2ar,d3bl);
+            Node<Datum> n3br = tree.addRight(n2ar,d3br);
+
+            Datum d4al = new Datum("reclusive");
+            Datum d4ar = new Datum("a dog");
+            Node<Datum> n4al = tree.addLeft(n3ar,d4al);
+            Node<Datum> n4ar = tree.addRight(n3ar,d4ar);
+            Datum d4bl = new Datum("shelled");
+            Datum d4br = new Datum("a fish");
+            Node<Datum> n4bl = tree.addLeft(n3bl,d3bl);
+            Node<Datum> n4br = tree.addRight(n3bl,d3br);
+
+            Datum d5al = new Datum("a bigfoot");
+            Datum d5ar = new Datum("a human");
+            Node<Datum> n5al = tree.addLeft(n4al,d5al);
+            Node<Datum> n5ar = tree.addRight(n4al,d5ar);
+            Datum d5bl = new Datum("a crab");
+            Datum d5br = new Datum("a salamander");
+            Node<Datum> n5bl = tree.addLeft(n4bl,d5bl);
+            Node<Datum> n5br = tree.addRight(n4bl,d5br);
+        }
+	}
 }

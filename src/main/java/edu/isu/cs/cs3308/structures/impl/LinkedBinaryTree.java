@@ -240,7 +240,7 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 		itemValid(element);
 		BinaryTreeNode<E> btn = (BinaryTreeNode<E>)validate(p);
 		if (btn.getRight() != null) {
-			throw new IllegalArgumentException("Left is occupied");
+			throw new IllegalArgumentException("Right is occupied");
 		}
 		else {
 			btn.setRight(createNode(element,btn,null,null));

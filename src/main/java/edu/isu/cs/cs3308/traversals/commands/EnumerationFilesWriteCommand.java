@@ -8,7 +8,7 @@ import edu.isu.cs.cs3308.Datum;
 import java.util.LinkedList;
 
 /**
- * A Traversal Command that numbers the datum and writes the output string to a list
+ * A Traversal Command that writes the output string to a list
  *
  * Based off of the code from Isaac Griffith
  *
@@ -16,14 +16,13 @@ import java.util.LinkedList;
  */
 public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 
-	private int current;
 	private LinkedList<CharSequence> saveString = new LinkedList<>();
 
 	/**
-	 * Constructs a new Command and sets the initial value of current to 0;
+	 * Constructs a new Command
 	 */
 	public EnumerationFilesWriteCommand() {
-		current = 0;
+
 	}
 
 	/**
@@ -37,9 +36,6 @@ public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 	 */
 	@Override
 	public void execute(Tree<Datum> tree, Node<Datum> node) {
-		node.getElement().setNumber(current);
-		current += 1;
-
 		Datum data = node.getElement();
 		int parentNum = node.getParent() == null ? -1 : node.getParent().getElement().getNumber();
 		String side = "r";
