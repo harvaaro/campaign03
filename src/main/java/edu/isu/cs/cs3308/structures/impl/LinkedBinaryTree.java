@@ -445,20 +445,18 @@ public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
 			return false;
 		}
 		else {
+			BinaryTreeNode<E> removeChild;
 			if (btn.getLeft() != null && item == btn.getLeft().getElement()) {
-				BinaryTreeNode<E> removeChild = btn.getLeft();
-				removeChild.setParent(null);
+				removeChild = btn.getLeft();
 				btn.setLeft(null);
-				size--;
-				return true;
 			}
 			else {
-				BinaryTreeNode<E> removeChild = btn.getRight();
-				removeChild.setParent(null);
+				removeChild = btn.getRight();
 				btn.setRight(null);
-				size--;
-				return true;
 			}
+			size -= (subTreeSize(removeChild) + 1);
+			removeChild.setParent(null);
+			return true;
 		}
 	}
 

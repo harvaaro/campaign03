@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 
 	private int current;
-	private LinkedList<String> saveString = new LinkedList<>();
+	private LinkedList<CharSequence> saveString = new LinkedList<>();
 
 	/**
 	 * Constructs a new Command and sets the initial value of current to 0;
@@ -52,7 +52,7 @@ public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 	 * Get the saved list of strings
 	 * @return The list of strings
 	 */
-	public LinkedList<String> getSaveString() {
+	public LinkedList<CharSequence> getSaveString() {
 		return saveString;
 	}
 }

@@ -4,6 +4,7 @@ import edu.isu.cs.cs3308.structures.BinaryTree;
 import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.impl.BinarySearchTree;
 import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree;
+import edu.isu.cs.cs3308.structures.impl.LinkedBinaryTree.BinaryTreeNode;
 import edu.isu.cs.cs3308.traversals.BreadthFirstTraversal;
 import edu.isu.cs.cs3308.traversals.InOrderTraversal;
 import edu.isu.cs.cs3308.traversals.PreOrderTraversal;
@@ -50,7 +51,7 @@ public class ClassificationTree {
      * Main method which controls the identification and tree management loop.
      */
     public void identify() {
-        throw new UnsupportedOperationException("Not yet implemented");
+		throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
@@ -62,7 +63,8 @@ public class ClassificationTree {
         trav.setCommand(cmdSave);
         trav.traverse();
         try {
-            Files.write(Paths.get("tree.txt"), cmdSave.getSaveString());
+            Files.write(Paths.get("DELETE.txt"), cmdSave.getSaveString(),
+                    StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException ex) {
             System.out.println(ex);
         }
@@ -73,6 +75,6 @@ public class ClassificationTree {
      * operations, a hardcoded basic tree will be loaded instead.
      */
     public void load() {
-        throw new UnsupportedOperationException("Not yet implemented");
+		throw new UnsupportedOperationException("Not yet implemented");
     }
 }
