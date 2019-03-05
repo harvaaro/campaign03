@@ -16,6 +16,7 @@ import edu.isu.cs.cs3308.traversals.commands.EnumerationFilesWriteCommand;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,12 +65,12 @@ public class ClassificationTree {
 		BreadthFirstTraversal<Datum> trav = new BreadthFirstTraversal<>(tree);
         trav.setCommand(new EnumerationCommand());
         trav.traverse();
-		EnumerationFilesWriteCommand cmdSave = new EnumerationFilesWriteCommand();
+        LinkedList<String> saveString = new LinkedList<>();
+		EnumerationFilesWriteCommand cmdSave = new EnumerationFilesWriteCommand(saveString);
 		trav.setCommand(cmdSave);
 		trav.traverse();
 		try {
-			Files.write(Paths.get("DELETE.txt"), cmdSave.getSaveString(),
-					StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+			Files.write(Paths.get("DELETE.txt"), saveString, Charset.defaultCharset());
 		} catch (IOException ex) {
 			System.out.println(ex.toString());
 		}

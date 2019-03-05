@@ -16,13 +16,13 @@ import java.util.LinkedList;
  */
 public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 
-	private LinkedList<CharSequence> saveString = new LinkedList<>();
+	private final LinkedList<String> saveString;
 
 	/**
 	 * Constructs a new Command
 	 */
-	public EnumerationFilesWriteCommand() {
-
+	public EnumerationFilesWriteCommand(LinkedList<String> saveString) {
+		this.saveString = saveString;
 	}
 
 	/**
@@ -42,13 +42,5 @@ public class EnumerationFilesWriteCommand extends TraversalCommand<Datum> {
 		if (node.getParent() != null)
 			side = node.equals(((LinkedBinaryTree<Datum>) tree).left(node.getParent())) ? "l" : "r";
 		saveString.addLast(String.format("%d:%d:%s:%s%n", parentNum, data.getNumber(), side, data.getPrompt()));
-	}
-
-	/**
-	 * Get the saved list of strings
-	 * @return The list of strings
-	 */
-	public LinkedList<CharSequence> getSaveString() {
-		return saveString;
 	}
 }
