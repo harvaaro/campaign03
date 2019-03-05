@@ -95,30 +95,32 @@ public class ClassificationTree {
 //		Scanner asker = new Scanner(System.in);
 //		System.out.println("Filename of Tree to open: ");
 //		String input = asker.nextLine();
-		String input = "test.txt";
+		String input = "t";
 
 		if (Files.exists(Paths.get(input))) {
-			parsedTree(input);
+			List<String> treeLines = new LinkedList<>();
+
+			try {
+				treeLines = Files.readAllLines(Paths.get(input));
+			}
+			catch (IOException ex) {
+				System.out.println(ex.toString());
+			}
+
+			parsedTree(treeLines);
 		}
 		else {
-		    hardcodedTree();
+		    hardcodedParse();
         }
+
+//		int DEBUG = 0;
 	}
 
 	/**
 	 * Parses based on a breadth first traversal tree file
-	 * @param input Filename for the tree file
+	 * @param treeLines List of string lines from a tree file
 	 */
-	private void parsedTree(String input) {
-		List<String> treeLines = new LinkedList<>();
-
-		try {
-			treeLines = Files.readAllLines(Paths.get(input));
-		}
-		catch (IOException ex) {
-			System.out.println(ex.toString());
-		}
-
+	private void parsedTree(List<String> treeLines) {
 		LinkedList<String> indxList = new LinkedList<>();
 		LinkedList<Node<Datum>> nodeList = new LinkedList<>();
 
@@ -146,6 +148,41 @@ public class ClassificationTree {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Uses a copy and pasted version of a tree txt file, and
+	 * removes any of the leaf animal nodes that start as "a ".
+	 * This leaves just the descriptive nodes for the logic, but
+	 * no animals predefined in the tree.
+	 */
+	private void hardcodedParse() {
+		String rawText =
+				"-1:7:r:furry\n" +
+				"7:1:l:squeaky\n" +
+				"7:13:r:aquatic\n" +
+				"1:0:l:a mouse\n" +
+				"1:5:r:bipedal\n" +
+				"13:11:l:legged\n" +
+				"13:14:r:a snake\n" +
+				"5:3:l:reclusive\n" +
+				"5:6:r:a dog\n" +
+				"11:9:l:shelled\n" +
+				"11:12:r:a fish\n" +
+				"3:2:l:a bigfoot\n" +
+				"3:4:r:a human\n" +
+				"9:8:l:a crab\n" +
+				"9:10:r:a salamander\n";
+		String[] treeList = rawText.split("\n");
+		List<String> parsedList = new LinkedList<>();
+
+		for (String node : treeList) {
+			if (node.split(":")[3].subSequence(0,2) != "a ") {
+				parsedList.add(node);
+			}
+		}
+
+		parsedTree(parsedList);
 	}
 
     /**
