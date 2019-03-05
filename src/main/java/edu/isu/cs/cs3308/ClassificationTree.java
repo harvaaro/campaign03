@@ -99,8 +99,6 @@ public class ClassificationTree {
 		else {
 		    hardcodedTree();
         }
-
-		int t = 0;
 	}
 
 	private void parsedTree(String input) {
@@ -125,7 +123,7 @@ public class ClassificationTree {
 				nodeList.poll();
 			}
 
-			if (indxList.isEmpty() || !indxList.peek().equals(parsed[0])) {
+			if (indxList.isEmpty() || !indxList.peek().equals(parsed[1])) {
 				indxList.offer(parsed[1]);
 			}
 
