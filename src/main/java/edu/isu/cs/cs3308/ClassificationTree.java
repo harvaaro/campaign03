@@ -56,27 +56,31 @@ public class ClassificationTree {
 	private void askQuestions(Node<Datum> currNode, String input) {
 		Scanner asker = new Scanner(System.in);
 
-		if (input.equals("")) {
-			System.out.println("Is this animal " + tree.root().getElement() + "? (Y/N) > "); //input
-			input = asker.next().toUpperCase();
-		}
-
-		else if (input.equals("Y")) {
+		if (input.equals("Y")) {
 			if (tree.left(currNode) == null) {
-				askQuestions(currNode, "Y");
+				askQuestions(currNode, "N");
 			}
 			else {
-				askQuestions(tree.left(currNode), "N");
+				askQuestions(tree.left(currNode), "");
 			}
 		}
-
 		else if (input.equals("N")) {
-			System.out.println("I don't know any " + notAnimalString(tree.root()) +
-					" animals that aren't " + tree.root().getElement());
-			System.out.println("What is the new animal? > "); //input
+			System.out.println("I don't know any " + notAnimalString(currNode) +
+					" animals that aren't " + currNode.getElement());
+			System.out.println("What is the new animal? > ");
+			String inputAnimal = asker.next();
 
-			System.out.println("What characteristic does " + "NEW" + " have that " +
-					tree.root().getElement() + "does not? > "); //input
+			System.out.println("What characteristic does " + inputAnimal + " have that " +
+					currNode.getElement() + "does not? > ");
+			input = asker.next();
+
+			currNode = tree.insert(new Datum(input),currNode);
+			tree.insert(new Datum("a " + inputAnimal),currNode);
+		}
+		else {
+			System.out.println("Is this animal " + currNode.getElement() + "? (Y/N) > ");
+			input = asker.next().toUpperCase();
+			askQuestions(currNode,input);
 		}
 	}
 
