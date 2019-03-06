@@ -57,7 +57,10 @@ public class ClassificationTree {
 		Scanner asker = new Scanner(System.in);
 
 		if (input.equals("Y")) {
-			if (tree.left(currNode) == null) {
+			if (tree.isExternal(currNode)) {
+				System.out.println("Good.\n");
+			}
+			else if (tree.left(currNode) == null) {
 				askQuestions(currNode, "N");
 			}
 			else {
