@@ -118,12 +118,13 @@ public class ClassificationTree {
 //		trav.traverse();
 
 		try {
-			File fileOut = new File(filename);
-			FileWriter fileWrite = new FileWriter(fileOut, false);
-			PrintWriter writer = new PrintWriter(fileWrite);
+			Path p = Paths.get(filename);
+			Files.deleteIfExists(p);
+		} catch (Exception e) {}
+
+		try (PrintWriter writer = new PrintWriter(new FileWriter(new File(filename), false))) {
 			trav.setCommand(new EnumeratedSaveCommand(writer));
 			trav.traverse();
-			writer.close();
 		}
 		catch (IOException ex) {
 			System.out.println(ex.toString());

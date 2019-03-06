@@ -13,7 +13,7 @@ import java.util.LinkedList;
  * @author Aaron Harvey
  * @param <E> The type of data to be stored in this binary tree.
  */
-public class LinkedBinaryTree<E> implements BinaryTree<E>, Tree<E> {
+public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> implements Tree<E> {
 
 	protected BinaryTreeNode<E> root = null;
 	private int size = 0;
