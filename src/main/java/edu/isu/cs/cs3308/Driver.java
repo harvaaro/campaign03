@@ -16,7 +16,7 @@ public class Driver {
      */
     public static void main(String[] args) {
         ClassificationTree tree = new ClassificationTree();
-        String more = "N";
+        String more = "Y";
         while (more.equals("Y")) {
             System.out.println("Do you have another animal to identify? (Y/N) > ");
             Scanner in = new Scanner(System.in);

@@ -11,7 +11,6 @@ import edu.isu.cs.cs3308.traversals.PreOrderTraversal;
 import edu.isu.cs.cs3308.traversals.TreeTraversal;
 import edu.isu.cs.cs3308.traversals.commands.EnumeratedSaveCommand;
 import edu.isu.cs.cs3308.traversals.commands.EnumerationCommand;
-import edu.isu.cs.cs3308.traversals.commands.EnumerationFilesWriteCommand;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -32,6 +31,7 @@ import java.util.Scanner;
  * input.
  *
  * @author Isaac Griffith
+ * @author Aaron Harvey
  */
 public class ClassificationTree {
 
@@ -68,17 +68,23 @@ public class ClassificationTree {
 			}
 		}
 		else if (input.equals("N")) {
-			System.out.println("I don't know any " + notAnimalString(currNode) +
-					" animals that aren't " + currNode.getElement());
-			System.out.println("What is the new animal? > ");
-			String inputAnimal = asker.next();
+			if (tree.numChildren(currNode) > 1) {
+				askQuestions(tree.right(currNode), "");
+			}
+			else {
+				System.out.println("I don't know any " + notAnimalString(currNode) +
+						" animals that aren't " + currNode.getElement());
+				System.out.println("What is the new animal? > ");
+				String inputAnimal = asker.next();
 
-			System.out.println("What characteristic does " + inputAnimal + " have that " +
-					currNode.getElement() + "does not? > ");
-			input = asker.next();
+				System.out.println("What characteristic does a " + inputAnimal + " have that " +
+						currNode.getElement() + " does not? > ");
+				input = asker.next();
+				System.out.println();
 
-			currNode = tree.insert(new Datum(input),currNode);
-			tree.insert(new Datum("a " + inputAnimal),currNode);
+				currNode = tree.insert(new Datum(input), currNode);
+				tree.insert(new Datum("a " + inputAnimal), currNode);
+			}
 		}
 		else {
 			System.out.println("Is this animal " + currNode.getElement() + "? (Y/N) > ");
@@ -94,7 +100,11 @@ public class ClassificationTree {
 	 */
 	private String notAnimalString(Node<Datum> currNode) {
 		String retString = "";
-		for (int i = 0; i < tree.depth(currNode); i++) {
+		int depth = tree.depth(currNode);
+
+		for (int i = 0; i < depth; i++) {
+			currNode = currNode.getParent();
+
 			if (i != 0) {
 				retString = ", " + retString;
 			}
@@ -110,19 +120,21 @@ public class ClassificationTree {
 		TreeTraversal<Datum> trav = new InOrderTraversal<>(tree);
         trav.setCommand(new EnumerationCommand());
         trav.traverse();
-
 		trav = new BreadthFirstTraversal<>(tree);
-        String filename = "DELETE.txt";
 
-//		trav.setCommand(new EnumerationFilesWriteCommand(filename));
-//		trav.traverse();
+		Scanner asker = new Scanner(System.in);
+		System.out.println("Filename of Tree to Save: ");
+		String filename = asker.next();
 
 		try {
 			Path p = Paths.get(filename);
 			Files.deleteIfExists(p);
-		} catch (Exception e) {}
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
 
-		try (PrintWriter writer = new PrintWriter(new FileWriter(new File(filename), false))) {
+		try (PrintWriter writer = new PrintWriter(
+				new FileWriter(new File(filename), false))) {
 			trav.setCommand(new EnumeratedSaveCommand(writer));
 			trav.traverse();
 		}
@@ -136,10 +148,10 @@ public class ClassificationTree {
 	 * operations, a hardcoded basic tree will be loaded instead.
 	 */
 	public void load() {
-//		Scanner asker = new Scanner(System.in);
-//		System.out.println("Filename of Tree to open: ");
-//		String input = asker.nextLine();
-		String input = "test.txt";
+		Scanner asker = new Scanner(System.in);
+		System.out.println("Filename of Tree to Open: ");
+		String input = asker.next();
+		System.out.println();
 
 		if (Files.exists(Paths.get(input))) {
 			List<String> treeLines = new LinkedList<>();
@@ -156,8 +168,6 @@ public class ClassificationTree {
 		else {
 		    hardcodedParse();
         }
-
-//		int DEBUG = 0;
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package edu.isu.cs.cs3308.structures.impl;
 
 import com.google.common.collect.Iterables;
-import edu.isu.cs.cs3308.structures.BinaryTree;
 import edu.isu.cs.cs3308.structures.Node;
 import edu.isu.cs.cs3308.structures.Tree;
 
