@@ -57,18 +57,18 @@ public class ClassificationTree {
 		Scanner asker = new Scanner(System.in);
 
 		if (input.equals("Y")) {
-			if (tree.isExternal(currNode)) {
+			if (tree.isExternal(currNode) || tree.left(currNode) == null) {
 				System.out.println("Good.\n");
 			}
-			else if (tree.left(currNode) == null) {
-				askQuestions(currNode, "N");
+			else if (tree.left(currNode) != null) {
+				askQuestions(tree.left(currNode), "");
 			}
 			else {
-				askQuestions(tree.left(currNode), "");
+				askQuestions(tree.right(currNode), "");
 			}
 		}
 		else if (input.equals("N")) {
-			if (tree.numChildren(currNode) > 1) {
+			if (tree.right(currNode) != null) {
 				askQuestions(tree.right(currNode), "");
 			}
 			else {
@@ -82,8 +82,8 @@ public class ClassificationTree {
 				input = asker.next();
 				System.out.println();
 
-				currNode = tree.insert(new Datum(input), currNode);
-				tree.insert(new Datum("a " + inputAnimal), currNode);
+				currNode = tree.addRight(currNode, new Datum(input));
+				tree.addRight(currNode, new Datum("a " + inputAnimal));
 			}
 		}
 		else {
