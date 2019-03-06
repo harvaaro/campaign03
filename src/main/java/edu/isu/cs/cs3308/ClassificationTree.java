@@ -53,6 +53,11 @@ public class ClassificationTree {
 		askQuestions(tree.root(), "");
 	}
 
+	/**
+	 * Recursively asks the keptions to determine where it needs to store the node data
+	 * @param currNode The node we are currently at in the tree
+	 * @param input The input choice made by the user for the looping
+	 */
 	private void askQuestions(Node<Datum> currNode, String input) {
 		Scanner asker = new Scanner(System.in);
 
